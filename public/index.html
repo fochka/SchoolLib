@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Каталог школьной библиотеки</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__inner">
+        <div>
+          <h1 class="logo">Школьная библиотека</h1>
+          <p class="tagline">МБОУ "СОШ п. Прикамский"</p>
+        </div>
+        <div id="guest-user-box" class="user-box">
+          <span class="muted">Гость</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="message" class="message" hidden></div>
+
+      <section class="hero">
+        <div class="hero__content">
+          <span class="eyebrow">Электронный каталог</span>
+          <h2>Школьная библиотека</h2>
+          <p>
+            Прикамская школа
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#catalog">Перейти к каталогу</a>
+            <a class="btn" href="/cabinet.html">Личный кабинет</a>
+          </div>
+        </div>
+        <div class="hero__visual" aria-hidden="true">
+          <div class="book-stack book-stack--one"></div>
+          <div class="book-stack book-stack--two"></div>
+          <div class="book-stack book-stack--three"></div>
+        </div>
+      </section>
+
+      <section class="card auth-card" id="auth-card">
+        <div>
+          <h2>Вход в личный кабинет</h2>
+          <form id="login-form" class="form auth-grid">
+            <input name="email" type="email" placeholder="email" required />
+            <div class="password-field">
+              <input name="password" type="password" placeholder="пароль" required />
+              <button class="password-toggle" type="button" data-password-toggle aria-label="Показать пароль" title="Показать пароль">
+                &#128065;
+              </button>
+            </div>
+            <button class="btn btn--primary" type="submit">Войти</button>
+          </form>
+          <p class="muted">
+            Тестовые аккаунты: student@school.local, teacher@school.local,
+            librarian@school.local, admin@school.local. Пароль: 123456.
+          </p>
+        </div>
+        <div>
+          <h2>Регистрация читателя</h2>
+          <form id="register-form" class="form auth-grid">
+            <input name="name" placeholder="ФИО" required />
+            <input name="email" type="email" placeholder="email" required />
+            <input name="class_name" placeholder="класс, например 9А" />
+            <div class="password-field">
+              <input name="password" type="password" placeholder="пароль" required />
+              <button class="password-toggle" type="button" data-password-toggle aria-label="Показать пароль" title="Показать пароль">
+                &#128065;
+              </button>
+            </div>
+            <button class="btn btn--primary" type="submit">Зарегистрироваться</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="catalog-layout" id="catalog">
+        <aside class="card catalog-card catalog-layout__sidebar">
+          <span class="eyebrow">Фильтры</span>
+          <h2>Каталог книг</h2>
+          <p class="muted">
+            Без авторизации можно только смотреть каталог и искать книги.
+          </p>
+          <div class="filters filters--vertical">
+            <label class="field">
+              <span>Поиск</span>
+              <input id="books-search" class="input" type="search" placeholder="Название, автор, ISBN..." />
+            </label>
+            <label class="field">
+              <span>Жанр</span>
+              <input id="genre-filter" class="input" placeholder="Например: роман" />
+            </label>
+            <label class="field">
+              <span>Год</span>
+              <input id="year-filter" class="input" type="number" placeholder="2024" />
+            </label>
+            <label class="field">
+              <span>Сортировка</span>
+              <select id="sort-filter">
+                <option value="title">Название</option>
+                <option value="author">Автор</option>
+                <option value="year">Год</option>
+                <option value="available">Доступность</option>
+              </select>
+            </label>
+            <button class="btn btn--primary" type="button" id="qr-scan-btn">Сканировать QR</button>
+          </div>
+        </aside>
+        <div class="catalog-layout__content">
+          <div id="books-list" class="book-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">SchoolLib — публичная страница каталога</div>
+    </footer>
+
+    <script src="https://unpkg.com/html5-qrcode" defer></script>
+    <script src="/js/guest.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Личный кабинет библиотеки</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__inner">
+        <div>
+          <h1 class="logo">Личный кабинет</h1>
+          <p class="tagline">МБОУ "СОШ п. Прикамский"</p>
+        </div>
+        <div id="user-box" class="user-box"></div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="message" class="message" hidden></div>
+
+      <section class="dashboard-hero">
+        <div>
+          <span class="eyebrow">Рабочее пространство</span>
+          <h2>Школьная библиотека</h2>
+          <p>
+            Прикамская школа
+          </p>
+        </div>
+        <nav class="dashboard-stats" role="tablist" aria-label="Разделы личного кабинета">
+          <button type="button" class="tabs__btn tabs__btn--active" data-tab="catalog">
+            <strong>Каталог</strong>
+            <span>поиск и бронирование книг</span>
+          </button>
+          <button type="button" class="tabs__btn" data-tab="account">
+            <strong>Личный кабинет</strong>
+            <span>история, избранное, задолженность</span>
+          </button>
+          <button type="button" class="tabs__btn teacher-only" data-tab="teacher" hidden>
+            <strong>Учитель</strong>
+            <span>массовое бронирование на класс</span>
+          </button>
+          <button type="button" class="tabs__btn librarian-only" data-tab="staff" hidden>
+            <strong>Библиотекарь</strong>
+            <span>книги, выдача, отчёты, события</span>
+          </button>
+          <button type="button" class="tabs__btn admin-only" data-tab="admin" hidden>
+            <strong>Администратор</strong>
+            <span>пользователи и системные логи</span>
+          </button>
+        </nav>
+      </section>
+
+      <section id="panel-catalog" class="panel panel--active">
+        <div class="catalog-layout">
+          <aside class="card catalog-card catalog-layout__sidebar">
+            <span class="eyebrow">Фильтры</span>
+            <h2>Каталог книг</h2>
+            <div class="filters filters--vertical">
+              <label class="field">
+                <span>Поиск</span>
+                <input id="books-search" class="input" type="search" placeholder="Название, автор, ISBN..." />
+              </label>
+              <label class="field">
+                <span>Жанр</span>
+                <input id="genre-filter" class="input" placeholder="Например: роман" />
+              </label>
+              <label class="field">
+                <span>Год</span>
+                <input id="year-filter" class="input" type="number" placeholder="2024" />
+              </label>
+              <label class="field">
+                <span>Сортировка</span>
+                <select id="sort-filter">
+                  <option value="title">Название</option>
+                  <option value="author">Автор</option>
+                  <option value="year">Год</option>
+                  <option value="available">Доступность</option>
+                </select>
+              </label>
+              <button class="btn btn--primary" type="button" id="qr-scan-btn">Сканировать QR</button>
+            </div>
+          </aside>
+          <div class="catalog-layout__content">
+            <div id="books-list" class="book-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-account" class="panel" hidden>
+        <div class="account-tools-grid">
+          <div class="card">
+            <h2>Мой профиль</h2>
+            <form id="profile-form" class="form grid">
+              <label class="field">
+                <span>ФИО</span>
+                <input name="name" required />
+              </label>
+              <label class="field">
+                <span>Email</span>
+                <input name="email" type="email" disabled />
+              </label>
+              <label class="field">
+                <span>Роль</span>
+                <input name="role_name" disabled />
+              </label>
+              <label class="field">
+                <span>Класс</span>
+                <input name="class_name" placeholder="например 9А" />
+              </label>
+              <div class="form__actions">
+                <button class="btn btn--primary" type="submit">Сохранить профиль</button>
+              </div>
+            </form>
+          </div>
+          <div class="card">
+            <h2>Смена пароля</h2>
+            <form id="password-form" class="form grid">
+              <label class="field">
+                <span>Текущий пароль</span>
+                <div class="password-field">
+                  <input name="current_password" type="password" required />
+                  <button class="password-toggle" type="button" data-password-toggle aria-label="Показать пароль" title="Показать пароль">
+                    &#128065;
+                  </button>
+                </div>
+              </label>
+              <label class="field">
+                <span>Новый пароль</span>
+                <div class="password-field">
+                  <input name="new_password" type="password" minlength="4" required />
+                  <button class="password-toggle" type="button" data-password-toggle aria-label="Показать пароль" title="Показать пароль">
+                    &#128065;
+                  </button>
+                </div>
+              </label>
+              <label class="field">
+                <span>Повторите новый пароль</span>
+                <div class="password-field">
+                  <input name="repeat_password" type="password" minlength="4" required />
+                  <button class="password-toggle" type="button" data-password-toggle aria-label="Показать пароль" title="Показать пароль">
+                    &#128065;
+                  </button>
+                </div>
+              </label>
+              <div class="form__actions">
+                <button class="btn btn--primary" type="submit">Изменить пароль</button>
+              </div>
+            </form>
+          </div>
+          <div class="card">
+            <h2>Избранное</h2>
+            <div id="favorites-list"></div>
+          </div>
+        </div>
+        <div class="account-main-grid">
+          <div class="card account-main-grid__active">
+            <h2>Мои активные брони и выдачи</h2>
+            <div id="my-active"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>История</h2>
+          <div id="my-history"></div>
+        </div>
+      </section>
+
+      <section id="panel-teacher" class="panel" hidden>
+        <div class="card">
+          <h2>Массовое бронирование учебников</h2>
+          <form id="mass-form" class="form grid">
+            <label class="field">
+              <span>Книга</span>
+              <select name="book_id" id="mass-book-select" required></select>
+            </label>
+            <label class="field">
+              <span>Класс</span>
+              <input name="class_name" placeholder="8А" required />
+            </label>
+            <label class="field">
+              <span>Количество</span>
+              <input name="count" type="number" min="1" value="1" required />
+            </label>
+            <div class="form__actions">
+              <button class="btn btn--primary" type="submit">Забронировать на класс</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="panel-staff" class="panel" hidden>
+        <div class="card">
+          <h2>Управление книгами</h2>
+          <form id="book-form" class="form grid">
+            <input name="id" type="hidden" />
+            <label class="field"><span>Название *</span><input name="title" required /></label>
+            <label class="field"><span>Автор *</span><input name="author" required /></label>
+            <label class="field"><span>Жанр</span><input name="genre" /></label>
+            <label class="field"><span>Год</span><input name="year" type="number" min="1" /></label>
+            <label class="field"><span>ISBN</span><input name="isbn" /></label>
+            <label class="field"><span>Экземпляров</span><input name="copies_total" type="number" min="1" value="1" /></label>
+            <label class="field field--wide"><span>Ссылка на обложку</span><input name="cover_url" /></label>
+            <label class="field field--wide"><span>Ключевые слова</span><input name="keywords" /></label>
+            <label class="field field--wide"><span>Аннотация</span><textarea name="annotation" rows="3"></textarea></label>
+            <div class="form__actions">
+              <button class="btn btn--primary" type="submit">Сохранить книгу</button>
+              <button class="btn" type="button" id="book-form-reset">Очистить</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Книжный фонд</h2>
+          <p class="muted">Выберите книгу из списка, чтобы быстро открыть её в форме редактирования.</p>
+          <div id="staff-books-list"></div>
+        </div>
+
+        <div class="card">
+          <h2>Все бронирования</h2>
+          <div id="all-reservations"></div>
+        </div>
+
+        <div class="card">
+          <h2>Отчёты</h2>
+          <div class="report-buttons">
+            <button class="btn" data-report="popular">Популярные книги</button>
+            <button class="btn" data-report="debtors">Задолжники</button>
+            <button class="btn" data-report="movement">Движение фонда</button>
+            <button class="btn" data-report="writeoff">Акт списания</button>
+          </div>
+          <div id="report-result"></div>
+        </div>
+
+        <div class="card">
+          <h2>Афиша событий</h2>
+          <form id="event-form" class="form grid">
+            <input name="title" placeholder="Название события" required />
+            <input name="event_date" type="date" />
+            <input name="description" placeholder="Описание" />
+            <button class="btn btn--primary" type="submit">Добавить</button>
+          </form>
+          <div id="events-list"></div>
+        </div>
+      </section>
+
+      <section id="panel-admin" class="panel" hidden>
+        <div class="card">
+          <h2>Пользователи</h2>
+          <form id="user-form" class="form grid">
+            <input name="name" placeholder="ФИО" required />
+            <input name="email" type="email" placeholder="email" required />
+            <input name="password" type="password" placeholder="пароль" required />
+            <input name="class_name" placeholder="класс" />
+            <select name="role">
+              <option value="student">Ученик</option>
+              <option value="teacher">Учитель</option>
+              <option value="librarian">Библиотекарь</option>
+              <option value="admin">Администратор</option>
+            </select>
+            <button class="btn btn--primary" type="submit">Создать пользователя</button>
+          </form>
+          <div id="users-list"></div>
+        </div>
+
+        <div class="card">
+          <h2>Логи системы</h2>
+          <div id="logs-list"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">SchoolLib — защищённый личный кабинет</div>
+    </footer>
+
+    <script src="https://unpkg.com/html5-qrcode" defer></script>
+    <script src="/js/app.js" defer></script>
+  </body>
+</html>
