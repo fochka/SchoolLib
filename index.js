@@ -60,6 +60,7 @@ app.get('/cabinet.html', (req, res, next) => {
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/pics', express.static(path.join(__dirname, 'pics')));
 
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
